@@ -23,6 +23,7 @@ function Sales() {
         <thead>
           <tr>
             <th>Hour</th>
+            <th>Employees</th>
             <th>Service</th>
             <th>Card</th>
             <th>Cash</th>
@@ -35,12 +36,13 @@ function Sales() {
           {sales.map((row, index) => (
             <tr key={index}>
               <td>{row.Hour}</td>
-              <td>${row.Service}</td>
-              <td>${row.Card}</td>
-              <td>${row.Cash}</td>
-              <td>${row.Tip}</td>
-              <td>${row.Discount}</td>
-              <td>${row.Other}</td>
+              <td>{row.employees.join(", ")}</td>
+              <td>${row.Service.toFixed(2)}</td>
+              <td>${row.Card.toFixed(2)}</td>
+              <td>${row.Cash.toFixed(2)}</td>
+              <td>${row.Tip.toFixed(2)}</td>
+              <td>${row.Discount.toFixed(2)}</td>
+              <td>${row.Other.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
