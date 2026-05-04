@@ -1,9 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
+from routes.sales import sales_bp
 
 app = Flask(__name__)
-CORS(app)  # ← this is critical, explained below
+CORS(app)
 
-@app.route("/api/hello")
-def hello():
-    return jsonify({ "message": "Hello from Flask!" })
+app.register_blueprint(sales_bp)
+
+if __name__ == "__main__":
+    app.run(debug=True)
