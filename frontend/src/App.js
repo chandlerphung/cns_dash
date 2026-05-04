@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
-import CustomerOrder from './pages/CustomerOrder';
-import Sales from './pages/Sales';
-import EmployeeTotals from './pages/EmployeeTotals';
-import ClockedIn from './pages/ClockedIn';
-import ShopTotal from './pages/ShopTotal';
-import EmployeeCodes from './pages/EmployeeCodes';
+import CustomerOrder from './pages/CustomerOrder/CustomerOrder';
+import Sales from './pages/Sales/Sales';
+import EmployeeTotals from './pages/EmployeeTotals/EmployeeTotals';
+import ClockedIn from './pages/ClockedIn/ClockedIn';
+import ShopTotal from './pages/ShopTotal/ShopTotal';
+import EmployeeCodes from './pages/EmployeeCodes/EmployeeCodes';
 
 function App() {
   return (

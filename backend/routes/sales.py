@@ -9,8 +9,8 @@ def get_sales():
     today = date.today().strftime("%m/%d/%Y")
     db = get_db()
     cursor = db.execute(
-        "SELECT Hour, Card, Cash, Service, Tip, Discount, Other FROM Bill WHERE Day = ? OR Day IS NULL",
-        (today,)
+    "SELECT Hour, Card, Cash, Service, Tip, Discount, Other FROM Bill WHERE Day = ? OR Day IS NULL ORDER BY rowid DESC",
+    (today,)
     )
     rows = cursor.fetchall()
     db.close()
