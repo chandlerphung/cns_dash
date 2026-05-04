@@ -33,3 +33,26 @@ def get_sales():
         data.append(row_dict)
 
     return jsonify(data)
+
+@sales_bp.route('/api/shop/total')
+def get_shop_total():
+    today = date.today().strftime("%m/%d/%Y")
+    db = get_db()
+    cursor = db.execute(
+        """
+        SELECT 
+            SUM(Service) as Service,
+            SUM(Tip) as Tip,
+            SUM(Card) as Card,
+            SUM(Cash) as Cash,
+            SUM(Discount) as Discount,
+            SUM(Other) as Other
+        FROM Bill
+        WHERE Day = ? OR Day IS NULL
+        """,
+        (today,)
+    )
+    row = cursor.fetchone()
+    db.close()
+
+    return jsonify(dict(row))
