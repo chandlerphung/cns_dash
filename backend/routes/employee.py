@@ -15,3 +15,22 @@ def get_employee_codes():
 
     data = [dict(row) for row in rows]
     return jsonify(data)
+
+@employee_bp.route('/api/employee/clocked-in')
+def get_clocked_in_employees():
+    today = date.today().strftime("%m/%d/%Y")
+    db = get_db()
+    cursor = db.execute(
+        """
+        SELECT a.FirstName, i.inhour
+        FROM InOut i
+        LEFT JOIN Account a ON i.account_id = a.Id
+        WHERE i.date = ?
+        """,
+        (today,)
+    )
+    rows = cursor.fetchall()
+    db.close()
+
+    data = [dict(row) for row in rows]
+    return jsonify(data)
