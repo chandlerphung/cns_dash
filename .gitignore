@@ -1,2 +1,5 @@
 data.db
 __pycache__/app.cpython-310.pyc
+/backend/.env
+/__pycache__
+/backend/__pycache__
