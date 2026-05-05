@@ -4,15 +4,50 @@ import "./CustomerOrder.css";
 function CustomerOrder() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingPhone, setEditingPhone] = useState(null);
+  const [noteInput, setNoteInput] = useState("");
 
   useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = () => {
     fetch("http://localhost:5000/api/customer/orders")
       .then(res => res.json())
       .then(data => {
         setCustomers(data);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleEditClick = (customer) => {
+    setEditingPhone(customer.phone);
+    setNoteInput(customer.note || "");
+  };
+
+  const handleSave = (phone) => {
+    fetch("http://localhost:5000/api/customer/note", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, note: noteInput })
+    })
+      .then(res => res.json())
+      .then(() => {
+        setEditingPhone(null);
+        fetchCustomers();
+      });
+  };
+
+  const handleToggleDone = (customer) => {
+    const newDone = customer.done ? 0 : 1;
+    fetch("http://localhost:5000/api/customer/done", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: customer.phone, done: newDone })
+    })
+      .then(res => res.json())
+      .then(() => fetchCustomers());
+  };
 
   if (loading) return <p>Loading...</p>;
   if (customers.length === 0) return <p>No customers checked in yet today.</p>;
@@ -23,17 +58,47 @@ function CustomerOrder() {
       <table className="customerorder-table">
         <thead>
           <tr>
+            <th>Done</th>
             <th>Name</th>
             <th>Phone</th>
             <th>Time In</th>
+            <th>Note</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {customers.map((c, index) => (
-            <tr key={index}>
+            <tr key={index} className={c.done ? "row-done" : ""}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={!!c.done}
+                  onChange={() => handleToggleDone(c)}
+                  className="done-checkbox"
+                />
+              </td>
               <td>{c.customer}</td>
               <td>{c.phone}</td>
               <td>{c.hour}</td>
+              <td>
+                {editingPhone === c.phone ? (
+                  <input
+                    className="note-input"
+                    value={noteInput}
+                    onChange={e => setNoteInput(e.target.value)}
+                    placeholder="Add a note..."
+                  />
+                ) : (
+                  <span className="note-text">{c.note || "—"}</span>
+                )}
+              </td>
+              <td>
+                {editingPhone === c.phone ? (
+                  <button className="save-btn" onClick={() => handleSave(c.phone)}>Save</button>
+                ) : (
+                  <button className="edit-btn" onClick={() => handleEditClick(c)}>Edit</button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

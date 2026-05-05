@@ -3,7 +3,9 @@ from flask_cors import CORS
 from routes.sales import sales_bp
 from routes.employee import employee_bp
 from routes.customer import customer_bp
+from notes_db import init_notes_db
 
+init_notes_db()  # creates notes.db and table if they don't exist
 app = Flask(__name__)
 CORS(app)
 

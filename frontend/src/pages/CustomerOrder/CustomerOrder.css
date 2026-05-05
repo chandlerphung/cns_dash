@@ -12,6 +12,7 @@
   text-align: left;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
 }
 
 .customerorder-table th {
@@ -22,4 +23,70 @@
 
 .customerorder-table tr:hover {
   background-color: #f5f5f5;
+}
+
+.customerorder-table td:last-child {
+  width: 80px;
+}
+
+.customerorder-table td:nth-child(4) {
+  width: 300px;
+}
+
+.note-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.note-text {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.edit-btn, .save-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.edit-btn {
+  background-color: #f0f0f0;
+  color: #444;
+}
+
+.save-btn {
+  background-color: #4f86c6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.save-btn:hover {
+  background-color: #3a6fad;
+}
+
+.done-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4f86c6;
+}
+
+.row-done td {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.row-done .edit-btn {
+  pointer-events: none;
+  opacity: 0.4;
 }
