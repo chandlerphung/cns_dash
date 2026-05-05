@@ -2,11 +2,18 @@
   padding: 2rem;
 }
 
+.shoptotal-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
 .shoptotal-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  margin-top: 1.5rem;
 }
 
 .total-card {
@@ -18,6 +25,7 @@
   flex-direction: column;
   gap: 0.5rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  min-width: 160px;
 }
 
 .total-label {
@@ -34,12 +42,8 @@
   color: #1a1a1a;
 }
 
-.shoptotal-charts {
-  margin-top: 3rem;
-}
-
 .shoptotal-chart {
-  width: 100%;
+  text-align: center;
 }
 
 .shoptotal-chart h2 {

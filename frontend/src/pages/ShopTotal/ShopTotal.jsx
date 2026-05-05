@@ -33,52 +33,54 @@ function ShopTotal() {
     <div className="shoptotal-container">
       <h1>Shop Total</h1>
 
-      <div className="shoptotal-grid">
-        <div className="total-card">
-          <span className="total-label">Service</span>
-          <span className="total-value">${totals.Service.toFixed(2)}</span>
+      <div className="shoptotal-main">
+        <div className="shoptotal-grid">
+          <div className="total-card">
+            <span className="total-label">Service</span>
+            <span className="total-value">${totals.Service.toFixed(2)}</span>
+          </div>
+          <div className="total-card">
+            <span className="total-label">Tip</span>
+            <span className="total-value">${totals.Tip.toFixed(2)}</span>
+          </div>
+          <div className="total-card">
+            <span className="total-label">Card</span>
+            <span className="total-value">${totals.Card.toFixed(2)}</span>
+          </div>
         </div>
-        <div className="total-card">
-          <span className="total-label">Tip</span>
-          <span className="total-value">${totals.Tip.toFixed(2)}</span>
-        </div>
-        <div className="total-card">
-          <span className="total-label">Card</span>
-          <span className="total-value">${totals.Card.toFixed(2)}</span>
-        </div>
-        <div className="total-card">
-          <span className="total-label">Cash</span>
-          <span className="total-value">${totals.Cash.toFixed(2)}</span>
-        </div>
-        <div className="total-card">
-          <span className="total-label">Discount</span>
-          <span className="total-value">${totals.Discount.toFixed(2)}</span>
-        </div>
-        <div className="total-card">
-          <span className="total-label">Other</span>
-          <span className="total-value">${totals.Other.toFixed(2)}</span>
-        </div>
-      </div>
 
-      <div className="shoptotal-charts">
         <div className="shoptotal-chart">
           <h2>Employee Contribution</h2>
-          <PieChart width={700} height={380}>
-            <Pie
-              data={employeeChartData}
-              cx={350}
-              cy={170}
-              outerRadius={140}
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
-            >
-              {employeeChartData.map((entry, index) => (
-                <Cell key={index} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
-            <Legend />
-          </PieChart>
+<PieChart width={500} height={400}>
+  <Pie
+    data={employeeChartData}
+    cx={250}
+    cy={200}
+    outerRadius={150}
+    dataKey="value"
+    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
+  >
+    {employeeChartData.map((entry, index) => (
+      <Cell key={index} fill={COLORS[index % COLORS.length]} />
+    ))}
+  </Pie>
+  <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+</PieChart>
+        </div>
+
+        <div className="shoptotal-grid">
+          <div className="total-card">
+            <span className="total-label">Cash</span>
+            <span className="total-value">${totals.Cash.toFixed(2)}</span>
+          </div>
+          <div className="total-card">
+            <span className="total-label">Discount</span>
+            <span className="total-value">${totals.Discount.toFixed(2)}</span>
+          </div>
+          <div className="total-card">
+            <span className="total-label">Other</span>
+            <span className="total-value">${totals.Other.toFixed(2)}</span>
+          </div>
         </div>
       </div>
     </div>
