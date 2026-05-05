@@ -33,3 +33,18 @@
   font-weight: 700;
   color: #1a1a1a;
 }
+
+.shoptotal-charts {
+  margin-top: 3rem;
+}
+
+.shoptotal-chart {
+  width: 100%;
+}
+
+.shoptotal-chart h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 1rem;
+}
