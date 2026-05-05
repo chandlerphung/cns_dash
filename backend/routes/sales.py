@@ -39,18 +39,18 @@ def get_shop_total():
     today = date.today().strftime("%m/%d/%Y")
     db = get_db()
     cursor = db.execute(
-        """
-        SELECT 
-            SUM(Service) as Service,
-            SUM(Tip) as Tip,
-            SUM(Card) as Card,
-            SUM(Cash) as Cash,
-            SUM(Discount) as Discount,
-            SUM(Other) as Other
-        FROM Bill
-        WHERE Day = ? OR Day IS NULL
-        """,
-        (today,)
+    """
+    SELECT 
+    COALESCE(SUM(Service), 0) as Service,
+    COALESCE(SUM(Tip), 0) as Tip,
+    COALESCE(SUM(Card), 0) as Card,
+    COALESCE(SUM(Cash), 0) as Cash,
+    COALESCE(SUM(Discount), 0) as Discount,
+    COALESCE(SUM(Other), 0) as Other
+    FROM Bill
+    WHERE Day = ? OR Day IS NULL
+    """,
+    (today,)
     )
     row = cursor.fetchone()
     db.close()

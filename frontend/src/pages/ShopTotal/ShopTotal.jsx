@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, Tooltip,} from "recharts";
 import "./ShopTotal.css";
 
 const COLORS = ["#4f86c6", "#63b3a0", "#f0a500", "#e06c75", "#9b59b6", "#2ecc71", "#e67e22", "#1abc9c"];
@@ -21,6 +21,7 @@ function ShopTotal() {
   }, []);
 
   if (loading) return <p>Loading...</p>;
+  if (!totals) return <p>No data available for today.</p>;
 
   const employeeChartData = employees
     .map(emp => ({
