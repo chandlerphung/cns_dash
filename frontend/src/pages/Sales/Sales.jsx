@@ -6,7 +6,9 @@ function Sales() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/sales")
+    fetch(`${process.env.REACT_APP_API_URL}/api/sales`, {
+  credentials: "include"
+})
       .then(res => res.json())
       .then(data => {
         setSales(data);

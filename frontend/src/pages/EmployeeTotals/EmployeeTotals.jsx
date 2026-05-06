@@ -6,7 +6,9 @@ function EmployeeTotals() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/employee/totals")
+    fetch(`${process.env.REACT_APP_API_URL}/api/employee/totals`, {
+  credentials: "include"
+})
       .then(res => res.json())
       .then(data => {
         setTotals(data);

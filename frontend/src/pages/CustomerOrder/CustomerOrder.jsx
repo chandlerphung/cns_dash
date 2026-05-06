@@ -12,7 +12,9 @@ function CustomerOrder() {
   }, []);
 
   const fetchCustomers = () => {
-    fetch("http://localhost:5000/api/customer/orders")
+    fetch(`${process.env.REACT_APP_API_URL}/api/customer/orders`, {
+  credentials: "include"
+})
       .then(res => res.json())
       .then(data => {
         setCustomers(data);
@@ -26,7 +28,7 @@ function CustomerOrder() {
   };
 
   const handleSave = (phone) => {
-    fetch("http://localhost:5000/api/customer/note", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/customer/note`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone, note: noteInput })
@@ -40,7 +42,7 @@ function CustomerOrder() {
 
   const handleToggleDone = (customer) => {
     const newDone = customer.done ? 0 : 1;
-    fetch("http://localhost:5000/api/customer/done", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/customer/done`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone: customer.phone, done: newDone })

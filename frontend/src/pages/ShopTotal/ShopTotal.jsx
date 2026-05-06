@@ -11,8 +11,12 @@ function ShopTotal() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:5000/api/shop/total").then(res => res.json()),
-      fetch("http://localhost:5000/api/employee/totals").then(res => res.json())
+      fetch(`${process.env.REACT_APP_API_URL}/api/shop/total`, {
+  credentials: "include"
+}).then(res => res.json()),
+      fetch(`${process.env.REACT_APP_API_URL}/api/employee/totals`, {
+  credentials: "include"
+}).then(res => res.json())
     ]).then(([shopData, empData]) => {
       setTotals(shopData);
       setEmployees(empData);

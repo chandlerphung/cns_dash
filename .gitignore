@@ -6,4 +6,4 @@ __pycache__/app.cpython-310.pyc
 backend/notes.db
 *.db
 *.pyc
-*.pyc
+frontend/.env

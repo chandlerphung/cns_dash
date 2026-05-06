@@ -6,7 +6,9 @@ function ClockedIn() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/employee/clocked-in")
+    fetch(`${process.env.REACT_APP_API_URL}/api/employee/clocked-in`, {
+  credentials: "include"
+})
       .then(res => res.json())
       .then(data => {
         setEmployees(data);
