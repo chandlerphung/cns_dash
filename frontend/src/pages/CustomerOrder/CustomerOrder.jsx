@@ -81,7 +81,7 @@ function CustomerOrder() {
               </td>
               <td>{c.customer}</td>
               <td>{c.phone}</td>
-              <td>{c.hour}</td>
+              <td>{new Date(`1970-01-01T${c.hour}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</td>
               <td>
                 {editingPhone === c.phone ? (
                   <input
