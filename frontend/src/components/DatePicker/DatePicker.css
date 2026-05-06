@@ -1,0 +1,33 @@
+.date-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.date-picker label {
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.date-picker input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.date-picker button {
+  padding: 0.4rem 0.8rem;
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #444;
+}
+
+.date-picker button:hover {
+  background-color: #e0e0e0;
+}

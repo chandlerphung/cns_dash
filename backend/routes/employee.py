@@ -1,10 +1,12 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from database import get_db
 from datetime import date
+from flask_login import login_required
 
 employee_bp = Blueprint('employee', __name__)
 
 @employee_bp.route('/api/employee/codes')
+@login_required
 def get_employee_codes():
     db = get_db()
     cursor = db.execute(
@@ -17,6 +19,7 @@ def get_employee_codes():
     return jsonify(data)
 
 @employee_bp.route('/api/employee/clocked-in')
+@login_required
 def get_clocked_in_employees():
     today = date.today().strftime("%m/%d/%Y")
     db = get_db()
@@ -36,8 +39,15 @@ def get_clocked_in_employees():
     return jsonify(data)
 
 @employee_bp.route('/api/employee/totals')
+@login_required
 def get_employee_totals():
-    today = date.today().strftime("%m/%d/%Y")
+    date_param = request.args.get('date')
+    
+    if date_param:
+        target_date = date_param
+    else:
+        target_date = date.today().strftime("%m/%d/%Y")
+
     db = get_db()
     cursor = db.execute(
         """
@@ -46,7 +56,7 @@ def get_employee_totals():
         LEFT JOIN Account a ON e.Account_Id = a.Id
         WHERE e.Date = ?
         """,
-        (today,)
+        (target_date,)
     )
     rows = cursor.fetchall()
     db.close()

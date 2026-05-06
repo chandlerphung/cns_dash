@@ -1,25 +1,36 @@
 import { useState, useEffect } from "react";
 import "./CustomerOrder.css";
+import DatePicker from "../../components/DatePicker/DatePicker";
 
 function CustomerOrder() {
+  const today = new Date().toISOString().split('T')[0];
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingPhone, setEditingPhone] = useState(null);
   const [noteInput, setNoteInput] = useState("");
+  const [selectedDate, setSelectedDate] = useState(today);
 
   useEffect(() => {
-    fetchCustomers();
-  }, []);
+    fetchCustomers(selectedDate);
+  }, [selectedDate]);
 
-  const fetchCustomers = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/customer/orders`, {
-  credentials: "include"
-})
+  const fetchCustomers = (date) => {
+    const isToday = date === today;
+    const url = isToday
+      ? `${process.env.REACT_APP_API_URL}/api/customer/orders`
+      : `${process.env.REACT_APP_API_URL}/api/customer/orders?date=${formatDate(date)}`;
+
+    fetch(url, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         setCustomers(data);
         setLoading(false);
       });
+  };
+
+  const formatDate = (isoDate) => {
+    const [year, month, day] = isoDate.split('-');
+    return `${month}/${day}/${year}`;
   };
 
   const handleEditClick = (customer) => {
@@ -36,7 +47,7 @@ function CustomerOrder() {
       .then(res => res.json())
       .then(() => {
         setEditingPhone(null);
-        fetchCustomers();
+        fetchCustomers(selectedDate);
       });
   };
 
@@ -48,7 +59,7 @@ function CustomerOrder() {
       body: JSON.stringify({ phone: customer.phone, done: newDone })
     })
       .then(res => res.json())
-      .then(() => fetchCustomers());
+      .then(() => fetchCustomers(selectedDate));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -57,6 +68,7 @@ function CustomerOrder() {
   return (
     <div className="customerorder-container">
       <h1>Customer Orders</h1>
+      <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
       <table className="customerorder-table">
         <thead>
           <tr>

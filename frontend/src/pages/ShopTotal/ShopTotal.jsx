@@ -1,28 +1,45 @@
 import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip,} from "recharts";
+import DatePicker from "../../components/DatePicker/DatePicker";
 import "./ShopTotal.css";
 
 const COLORS = ["#4f86c6", "#63b3a0", "#f0a500", "#e06c75", "#9b59b6", "#2ecc71", "#e67e22", "#1abc9c"];
 
 function ShopTotal() {
+  const today = new Date().toISOString().split('T')[0];
   const [totals, setTotals] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(today);
 
   useEffect(() => {
+    fetchShopData(selectedDate);
+  }, [selectedDate]);
+
+  const fetchShopData = (date) => {
+    setLoading(true);
+    const isToday = date === today;
+    const shopUrl = isToday
+      ? `${process.env.REACT_APP_API_URL}/api/shop/total`
+      : `${process.env.REACT_APP_API_URL}/api/shop/total?date=${formatDate(date)}`;
+    const empUrl = isToday
+      ? `${process.env.REACT_APP_API_URL}/api/employee/totals`
+      : `${process.env.REACT_APP_API_URL}/api/employee/totals?date=${formatDate(date)}`;
+
     Promise.all([
-      fetch(`${process.env.REACT_APP_API_URL}/api/shop/total`, {
-  credentials: "include"
-}).then(res => res.json()),
-      fetch(`${process.env.REACT_APP_API_URL}/api/employee/totals`, {
-  credentials: "include"
-}).then(res => res.json())
+      fetch(shopUrl, { credentials: "include" }).then(res => res.json()),
+      fetch(empUrl, { credentials: "include" }).then(res => res.json())
     ]).then(([shopData, empData]) => {
       setTotals(shopData);
       setEmployees(empData);
       setLoading(false);
     });
-  }, []);
+  };
+
+  const formatDate = (isoDate) => {
+    const [year, month, day] = isoDate.split('-');
+    return `${month}/${day}/${year}`;
+  };
 
   if (loading) return <p>Loading...</p>;
   if (!totals) return <p>No data available for today.</p>;
@@ -37,6 +54,7 @@ function ShopTotal() {
   return (
     <div className="shoptotal-container">
       <h1>Shop Total</h1>
+      <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
 
       <div className="shoptotal-main">
         <div className="shoptotal-grid">

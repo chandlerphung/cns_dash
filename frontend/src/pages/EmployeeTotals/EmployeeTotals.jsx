@@ -1,26 +1,43 @@
 import { useState, useEffect } from "react";
+import DatePicker from "../../components/DatePicker/DatePicker";
 import "./EmployeeTotals.css";
 
 function EmployeeTotals() {
+  const today = new Date().toISOString().split('T')[0];
   const [totals, setTotals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(today);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/employee/totals`, {
-  credentials: "include"
-})
+    fetchTotals(selectedDate);
+  }, [selectedDate]);
+
+  const fetchTotals = (date) => {
+    setLoading(true);
+    const isToday = date === today;
+    const url = isToday
+      ? `${process.env.REACT_APP_API_URL}/api/employee/totals`
+      : `${process.env.REACT_APP_API_URL}/api/employee/totals?date=${formatDate(date)}`;
+
+    fetch(url, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         setTotals(data);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const formatDate = (isoDate) => {
+    const [year, month, day] = isoDate.split('-');
+    return `${month}/${day}/${year}`;
+  };
 
   if (loading) return <p>Loading...</p>;
 
   return (
     <div className="totals-container">
       <h1>Employee Totals</h1>
+      <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
       <table className="totals-table">
         <thead>
           <tr>
