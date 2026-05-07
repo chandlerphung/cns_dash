@@ -7,3 +7,4 @@ backend/notes.db
 *.db
 *.pyc
 frontend/.env
+main.ipynb
