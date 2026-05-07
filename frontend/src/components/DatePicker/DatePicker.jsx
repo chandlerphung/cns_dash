@@ -1,7 +1,8 @@
 import './DatePicker.css';
 
 function DatePicker({ selectedDate, onChange }) {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
   return (
     <div className="date-picker">
@@ -9,10 +10,10 @@ function DatePicker({ selectedDate, onChange }) {
       <input
         type="date"
         value={selectedDate}
-        max={today}
+        max={todayStr}
         onChange={e => onChange(e.target.value)}
       />
-      <button onClick={() => onChange(today)}>Today</button>
+      <button onClick={() => onChange(todayStr)}>Today</button>
     </div>
   );
 }

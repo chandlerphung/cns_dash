@@ -21,7 +21,8 @@ def get_employee_codes():
 @employee_bp.route('/api/employee/clocked-in')
 @login_required
 def get_clocked_in_employees():
-    today = date.today().strftime("%m/%d/%Y")
+    date_param = request.args.get('date')
+    target_date = date_param if date_param else date.today().strftime("%m/%d/%Y")
     db = get_db()
     cursor = db.execute(
         """
@@ -30,7 +31,7 @@ def get_clocked_in_employees():
         LEFT JOIN Account a ON i.account_id = a.Id
         WHERE i.date = ?
         """,
-        (today,)
+        (target_date,)
     )
     rows = cursor.fetchall()
     db.close()

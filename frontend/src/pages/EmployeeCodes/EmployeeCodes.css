@@ -23,3 +23,17 @@
 .codes-table tr:hover {
   background-color: #f5f5f5;
 }
+
+@media (max-width: 768px) {
+  .codes-container {
+    padding: 1rem;
+  }
+
+  .codes-table {
+    font-size: 0.85rem;
+  }
+
+  .codes-table th, .codes-table td {
+    padding: 0.5rem 0.75rem;
+  }
+}

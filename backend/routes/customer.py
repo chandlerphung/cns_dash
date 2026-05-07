@@ -7,7 +7,8 @@ customer_bp = Blueprint('customer', __name__)
 
 @customer_bp.route('/api/customer/orders')
 def get_customer_orders():
-    today = date.today().strftime("%m/%d/%Y")
+    date_param = request.args.get('date')
+    target_date = date_param if date_param else date.today().strftime("%m/%d/%Y")
     db = get_db()
     notes_db = get_notes_db()
 
@@ -18,7 +19,7 @@ def get_customer_orders():
         WHERE ddate = ?
         ORDER BY rowid DESC
         """,
-        (today,)
+        (target_date,)
     ).fetchall()
     db.close()
 

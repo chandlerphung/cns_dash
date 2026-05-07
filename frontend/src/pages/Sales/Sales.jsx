@@ -3,10 +3,11 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 import "./Sales.css";
 
 function Sales() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(todayStr);
 
   useEffect(() => {
     fetchSales(selectedDate);
@@ -14,10 +15,7 @@ function Sales() {
 
   const fetchSales = (date) => {
     setLoading(true);
-    const isToday = date === today;
-    const url = isToday
-      ? `${process.env.REACT_APP_API_URL}/api/sales`
-      : `${process.env.REACT_APP_API_URL}/api/sales?date=${formatDate(date)}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/sales?date=${formatDate(date)}`;
 
     fetch(url, { credentials: "include" })
       .then(res => res.json())
@@ -38,7 +36,8 @@ function Sales() {
     <div className="sales-container">
       <h1>Sales</h1>
       <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
-      <table className="sales-table">
+      <div className="table-wrapper">
+        <table className="sales-table">
         <thead>
           <tr>
             <th>Hour</th>
@@ -72,7 +71,8 @@ function Sales() {
             ))
           )}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }

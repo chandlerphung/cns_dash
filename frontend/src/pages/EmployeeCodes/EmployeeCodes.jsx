@@ -21,7 +21,8 @@ function EmployeeCodes() {
   return (
     <div className="codes-container">
       <h1>Employee Codes</h1>
-      <table className="codes-table">
+      <div className="table-wrapper">
+        <table className="codes-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -36,7 +37,8 @@ function EmployeeCodes() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }

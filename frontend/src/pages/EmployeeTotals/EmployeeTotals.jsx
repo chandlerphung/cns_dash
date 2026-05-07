@@ -3,10 +3,11 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 import "./EmployeeTotals.css";
 
 function EmployeeTotals() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [totals, setTotals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(todayStr);
 
   useEffect(() => {
     fetchTotals(selectedDate);
@@ -14,10 +15,7 @@ function EmployeeTotals() {
 
   const fetchTotals = (date) => {
     setLoading(true);
-    const isToday = date === today;
-    const url = isToday
-      ? `${process.env.REACT_APP_API_URL}/api/employee/totals`
-      : `${process.env.REACT_APP_API_URL}/api/employee/totals?date=${formatDate(date)}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/employee/totals?date=${formatDate(date)}`;
 
     fetch(url, { credentials: "include" })
       .then(res => res.json())
@@ -38,7 +36,8 @@ function EmployeeTotals() {
     <div className="totals-container">
       <h1>Employee Totals</h1>
       <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
-      <table className="totals-table">
+      <div className="table-wrapper">
+        <table className="totals-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -57,7 +56,8 @@ function EmployeeTotals() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }

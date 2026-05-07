@@ -12,15 +12,13 @@ def get_sales():
     date_param = request.args.get('date')
     
     if date_param:
-        # viewing a specific past day - no null check needed
         query = """
             SELECT Hour, Card, Cash, Service, Tip, Discount, Other, Note
-            FROM Bill WHERE Day = ?
+            FROM Bill WHERE Day = ? OR Day IS NULL
             ORDER BY rowid DESC
         """
         params = (date_param,)
     else:
-        # today - include nulls for unsettled transactions
         today = date.today().strftime("%m/%d/%Y")
         query = """
             SELECT Hour, Card, Cash, Service, Tip, Discount, Other, Note
@@ -61,7 +59,7 @@ def get_shop_total():
             COALESCE(SUM(Cash), 0) as Cash,
             COALESCE(SUM(Discount), 0) as Discount,
             COALESCE(SUM(Other), 0) as Other
-            FROM Bill WHERE Day = ?
+            FROM Bill WHERE Day = ? OR Day IS NULL
         """
         params = (date_param,)
     else:
@@ -76,7 +74,6 @@ def get_shop_total():
             COALESCE(SUM(Other), 0) as Other
             FROM Bill WHERE Day = ? OR Day IS NULL
         """
-        today = date.today().strftime("%m/%d/%Y")
         params = (today,)
 
     db = get_db()

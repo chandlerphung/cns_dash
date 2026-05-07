@@ -3,22 +3,20 @@ import "./CustomerOrder.css";
 import DatePicker from "../../components/DatePicker/DatePicker";
 
 function CustomerOrder() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingPhone, setEditingPhone] = useState(null);
   const [noteInput, setNoteInput] = useState("");
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(todayStr);
 
   useEffect(() => {
     fetchCustomers(selectedDate);
   }, [selectedDate]);
 
   const fetchCustomers = (date) => {
-    const isToday = date === today;
-    const url = isToday
-      ? `${process.env.REACT_APP_API_URL}/api/customer/orders`
-      : `${process.env.REACT_APP_API_URL}/api/customer/orders?date=${formatDate(date)}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/customer/orders?date=${formatDate(date)}`;
 
     fetch(url, { credentials: "include" })
       .then(res => res.json())
@@ -69,7 +67,8 @@ function CustomerOrder() {
     <div className="customerorder-container">
       <h1>Customer Orders</h1>
       <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
-      <table className="customerorder-table">
+      <div className="table-wrapper">
+        <table className="customerorder-table">
         <thead>
           <tr>
             <th>Done</th>
@@ -116,7 +115,8 @@ function CustomerOrder() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }

@@ -90,3 +90,31 @@
   pointer-events: none;
   opacity: 0.4;
 }
+
+@media (max-width: 768px) {
+  .customerorder-container {
+    padding: 1rem;
+  }
+
+  .customerorder-table {
+    font-size: 0.85rem;
+  }
+
+  .customerorder-table th, .customerorder-table td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .note-input {
+    font-size: 0.85rem;
+  }
+
+  .edit-btn, .save-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .done-checkbox {
+    width: 16px;
+    height: 16px;
+  }
+}

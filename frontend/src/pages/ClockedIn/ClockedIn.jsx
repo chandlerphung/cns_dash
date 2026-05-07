@@ -6,7 +6,13 @@ function ClockedIn() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/employee/clocked-in`, {
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const formatDate = (isoDate) => {
+      const [year, month, day] = isoDate.split('-');
+      return `${month}/${day}/${year}`;
+    };
+    fetch(`${process.env.REACT_APP_API_URL}/api/employee/clocked-in?date=${formatDate(todayStr)}`, {
   credentials: "include"
 })
       .then(res => res.json())
@@ -21,7 +27,8 @@ function ClockedIn() {
   return (
     <div className="clockedin-container">
       <h1>Clocked In</h1>
-      <table className="clockedin-table">
+      <div className="table-wrapper">
+        <table className="clockedin-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -36,7 +43,8 @@ function ClockedIn() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
